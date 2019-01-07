@@ -201,10 +201,12 @@ fragmentzip_t *fragmentzip_open(const char *url){
 }
 
 fragmentzip_cd *fragmentzip_getCDForPath(fragmentzip_t *info, const char *path){
+    size_t path_len = strlen(path);
+    
     fragmentzip_cd *curr = info->cd;
     for (int i=0; i<info->cd_end->cd_entries; i++) {
         
-        if (strncmp(curr->filename, path, strlen(path)) == 0) return curr;
+        if (path_len == curr->len_filename && strncmp(curr->filename, path, path_len) == 0) return curr;
         
         curr = fragmentzip_nextCD(curr);
     }
@@ -218,7 +220,6 @@ int fragmentzip_download_file(fragmentzip_t *info, const char *remotepath, const
     fragentzip_local_file *lfile = NULL;
     char *uncompressed = NULL;
     FILE *f = NULL;
-    
     
     fragmentzip_cd *rfile = NULL;
     retassure(-1,rfile = fragmentzip_getCDForPath(info, remotepath));
