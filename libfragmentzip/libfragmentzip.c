@@ -11,6 +11,7 @@
 #include <libfragmentzip/libfragmentzip.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <zlib.h>
 #include <assert.h>
 
@@ -23,8 +24,6 @@ typedef char _impl_PASTE(assertion_failed_##file##_,line)[2*!!(predicate)-1];
 #define assure(a) do{ if ((a) == 0){err=1; goto error;} }while(0)
 #define retassure(retcode, a) do{ if ((a) == 0){err=retcode; goto error;} }while(0)
 #define safeFree(a) do{ if (a){free(a); a=NULL;} }while(0)
-
-#define bzero(buf, sz) memset((buf), 0, (sz))
 
 typedef struct{
     char *buf;
@@ -254,7 +253,6 @@ int fragmentzip_download_file(fragmentzip_t *info, const char *remotepath, const
     
     retassure(-7,curl_easy_perform(info->mcurl) == CURLE_OK);
     
-    
     retassure(-8,uncompressed = malloc(rfile->size_uncompressed));
     //file downloaded, now unpack it
     switch (lfile->compression) {
@@ -286,8 +284,6 @@ int fragmentzip_download_file(fragmentzip_t *info, const char *remotepath, const
     retassure(-11,f = fopen(savepath, FOPEN_WB));
     retassure(-12,fwrite(uncompressed, 1, rfile->size_uncompressed, f) == rfile->size_uncompressed);
 
-
-
 error:
     if (compressed){
         safeFree(compressed->buf);
@@ -299,7 +295,6 @@ error:
     
     return err;
 }
-
 
 void fragmentzip_close(fragmentzip_t *info){
     if (info){
