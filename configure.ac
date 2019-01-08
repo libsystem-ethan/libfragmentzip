@@ -29,7 +29,7 @@ AC_TYPE_UINT64_T
 
 # Checks for library functions.
 AC_FUNC_MALLOC
-AC_CHECK_FUNCS([bzero strdup])
+AC_CHECK_FUNCS([strdup])
 
 AC_MSG_CHECKING([whether to enable WIN32 specific flags])
 case "$host_os" in

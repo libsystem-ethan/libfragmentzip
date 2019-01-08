@@ -125,10 +125,10 @@ fragmentzip_t *fragmentzip_open_extended(const char *url, CURL *mcurl){
     fragmentzip_end_of_cd *cde = NULL;
     
     assure(dbuf = malloc(sizeof(t_downloadBuffer)));
-    bzero(dbuf, sizeof(t_downloadBuffer));
+    memset(dbuf, 0, sizeof(t_downloadBuffer));
     
     assure(info = (fragmentzip_t*)malloc(sizeof(fragmentzip_t)));
-    bzero(info,sizeof(fragmentzip_t));
+    memset(info, 0, sizeof(fragmentzip_t));
     
     assure(info->url = strdup(url));
     
@@ -165,7 +165,7 @@ fragmentzip_t *fragmentzip_open_extended(const char *url, CURL *mcurl){
     cde = (fragmentzip_end_of_cd*)dbuf->buf;
     fixEndian_end_of_cd(cde);
     
-    bzero(downloadRange, sizeof(downloadRange));
+    memset(downloadRange, 0, sizeof(downloadRange));
     snprintf(downloadRange, sizeof(downloadRange), "%u-%llu",cde->cd_start_offset, info->length-1);
     curl_easy_setopt(info->mcurl, CURLOPT_RANGE, downloadRange);
     
@@ -224,7 +224,7 @@ int fragmentzip_download_file(fragmentzip_t *info, const char *remotepath, const
     retassure(-1,rfile = fragmentzip_getCDForPath(info, remotepath));
 
     retassure(-2,compressed = (t_downloadBuffer*)malloc(sizeof(t_downloadBuffer)));
-    bzero(compressed, sizeof(t_downloadBuffer));
+    memset(compressed, 0, sizeof(t_downloadBuffer));
     
     compressed->callback = callback;
     
@@ -245,7 +245,7 @@ int fragmentzip_download_file(fragmentzip_t *info, const char *remotepath, const
     compressed->size_downloaded = 0;
     retassure(-6,compressed->buf = malloc(compressed->size_buf = rfile->size_compressed));
     
-    bzero(downloadRange,sizeof(downloadRange));
+    memset(downloadRange,0,sizeof(downloadRange));
     
     unsigned int start = (unsigned int)rfile->local_header_offset + sizeof(fragentzip_local_file)-1 + lfile->len_filename + lfile->len_extra_field;
     snprintf(downloadRange, sizeof(downloadRange), "%u-%u",start,(unsigned int)(start+compressed->size_buf-1));
