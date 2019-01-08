@@ -1,3 +1,4 @@
+.DS_Store
 *.patch
 *.diff
 .*.swp
@@ -19,7 +20,10 @@ libtool
 ltmain.sh
 m4
 missing
+include/.DS_Store
+include/libfragmentzip/.DS_Store
 libfragmentzip.pc
+libfragmentzip/.DS_Store
 libfragmentzip/*.a
 libfragmentzip/*.o
 libfragmentzip/*.la

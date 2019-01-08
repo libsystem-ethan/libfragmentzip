@@ -10,11 +10,13 @@
 #include <libfragmentzip/libfragmentzip.h>
 
 int main(int argc, const char * argv[]) {
-
     
-    fragmentzip_t *tt = fragmentzip_open("http://appldnld.apple.com/ios11.2.1/091-54669-20171213-5FC0AA72-DDFB-11E7-8D39-01E4FB2783B2/iPhone_4.0_64bit_11.2.1_15C153_Restore.ipsw");
-    
-    int rt = fragmentzip_download_file(tt, "Firmware/all_flash/sep-firmware.n69.RELEASE.im4p", "sep-firmware.n69.RELEASE.im4p", NULL);
+    fragmentzip_t *tt = fragmentzip_open("http://updates-http.cdn-apple.com/2018/ios/091-74856-20180709-813FF9AE-7C1C-11E8-8A6E-A95B544C24EB/iPhone_4.0_64bit_11.4.1_15G77_Restore.ipsw");
+    if (!tt) {
+        printf("failed to open zip\n");
+        return 1;
+    }
+    int rt = fragmentzip_download_file(tt, "Firmware/all_flash/sep-firmware.n53.RELEASE.im4p", "/tmp/sep-firmware.n53.RELEASE.im4p", NULL);
     
     fragmentzip_close(tt);
     printf("done=%d\n",rt);
